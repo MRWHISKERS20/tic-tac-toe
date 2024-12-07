@@ -1,31 +1,179 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tic Tac Toe</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Modern</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 320px;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #333;
+            font-size: 36px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cell:hover {
+            background-color: #e7e7e7;
+        }
+
+        .cell.x {
+            color: #3498db; /* Blue for X */
+        }
+
+        .cell.o {
+            color: #e74c3c; /* Red for O */
+        }
+
+        .button {
+            background-color: #2ecc71;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #27ae60;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .message.winner {
+            color: #2ecc71;
+        }
+
+        .message.tie {
+            color: #f39c12;
+        }
+    </style>
 </head>
 <body>
-  <div id="game-board">
-    <div class="row">
-      <div class="cell" data-index="0"></div>
-      <div class="cell" data-index="1"></div>
-      <div class="cell" data-index="2"></div>
+
+    <div class="game-container">
+        <h1>Tic Tac Toe</h1>
+        <div class="message" id="gameMessage">Player X's turn</div>
+        <div class="board" id="board">
+            <!-- 9 cells for Tic Tac Toe -->
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
+        <button class="button" id="newGameBtn">New Game</button>
     </div>
-    <div class="row">
-      <div class="cell" data-index="3"></div>
-      <div class="cell" data-index="4"></div>
-      <div class="cell" data-index="5"></div>
-    </div>
-    <div class="row">
-      <div class="cell" data-index="6"></div>
-      <div class="cell" data-index="7"></div>
-      <div class="cell" data-index="8"></div>
-    </div>
-  </div>
-  <button id="reset-button">Reset Game</button>
-  <script src="script.js"></script>
+
+    <script>
+        const cells = document.querySelectorAll('.cell');
+        const gameMessage = document.getElementById('gameMessage');
+        const newGameButton = document.getElementById('newGameBtn');
+        let currentPlayer = 'X'; // Player X starts
+        let gameActive = true; // Game status
+
+        const winningCombination = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        function checkWinner() {
+            for (let combination of winningCombination) {
+                const [a, b, c] = combination;
+                if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+                    gameMessage.textContent = `Player ${currentPlayer} wins!`;
+                    gameMessage.classList.add('winner');
+                    gameActive = false;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function checkTie() {
+            return [...cells].every(cell => cell.textContent);
+        }
+
+        function handleCellClick(event) {
+            const cell = event.target;
+            if (cell.textContent || !gameActive) return;
+
+            cell.textContent = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase());
+
+            if (checkWinner()) return;
+            if (checkTie()) {
+                gameMessage.textContent = 'It\'s a tie!';
+                gameMessage.classList.add('tie');
+                gameActive = false;
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            gameMessage.textContent = `Player ${currentPlayer}'s turn`;
+        }
+
+        function startNewGame() {
+            gameActive = true;
+            currentPlayer = 'X';
+            gameMessage.textContent = "Player X's turn";
+            gameMessage.classList.remove('winner', 'tie');
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o');
+            });
+        }
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', handleCellClick);
+        });
+
+        newGameButton.addEventListener('click', startNewGame);
+    </script>
 </body>
 </html>
