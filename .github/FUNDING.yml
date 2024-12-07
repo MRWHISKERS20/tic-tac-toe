@@ -1,0 +1,17 @@
+github: [your_github_username1, your_github_username2]  # GitHub Sponsors usernames
+patreon: your_patreon_username                          # Patreon username
+open_collective: your_open_collective_username          # Open Collective username
+ko_fi: your_ko_fi_username                              # Ko-fi username
+tidelift: your_tidelift_project                         # Tidelift project name
+community_bridge: your_community_bridge_project         # Community Bridge project name
+liberapay: your_liberapay_username                      # Liberapay username
+issuehunt: your_issuehunt_username                      # IssueHunt username
+lfx_crowdfunding: your_lfx_project                      # LFX Crowdfunding project name
+polar: your_polar_username                              # Polar username
+buy_me_a_coffee: your_buy_me_a_coffee_username          # Buy Me a Coffee username
+thanks_dev: your_thanks_dev_username                    # thanks.dev username
+custom: 
+  - 'https://your-custom-link1.com'                     # Custom sponsorship URL
+  - 'https://your-custom-link2.com'
+  - 'https://your-custom-link3.com'
+  - 'https://your-custom-link4.com'
